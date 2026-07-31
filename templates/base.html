@@ -89,6 +89,9 @@
           <div><a href="mailto:{{ site.contacto.email }}">{{ site.contacto.email }}</a></div>
           <div><a href="tel:{{ site.contacto.telefono_link }}">{{ site.contacto.telefono }}</a></div>
           <div><a href="{{ site.contacto.linkedin_url }}" rel="me noopener">{{ site.contacto.linkedin }}</a></div>
+          {% if site.contacto.get('sitio') %}
+          <div><a href="{{ site.contacto.sitio_url }}">{{ site.contacto.sitio }}</a></div>
+          {% endif %}
           <div style="color:var(--ink-3)">{{ site.ubicacion }}</div>
         </div>
       </div>

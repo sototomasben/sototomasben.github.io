@@ -9,7 +9,10 @@ ubicacion: Salta Capital, Argentina
 
 # Cambiá esto cuando publiques con dominio propio
 base_url: ""          # ej: "/portfolio" si lo servís en un subdirectorio de GitHub Pages
-canonical: "https://tbs28.github.io"
+# canonical: la URL real y pública del sitio. Si algún día compras un dominio
+# propio, se cambia acá y se crea un archivo CNAME en la raíz del proyecto.
+# NO es un alias: solo puede ser un dominio que efectivamente controlás.
+canonical: "https://sototomasben.github.io"
 
 seo:
   descripcion: >-
@@ -26,6 +29,8 @@ contacto:
   telefono_link: "+5493874071215"
   linkedin: linkedin.com/in/sototomasbenjamin
   linkedin_url: https://linkedin.com/in/sototomasbenjamin
+  sitio: sototomasben.github.io
+  sitio_url: https://sototomasben.github.io
   github: ""            # completar cuando tengas repositorio público
 
 cv:
