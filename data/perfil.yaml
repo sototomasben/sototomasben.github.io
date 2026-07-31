@@ -1,0 +1,61 @@
+# ============================================================
+#  Perfil, especialidades y competencias
+#  Alineado a la descripción formal del puesto de Analista NOC IT.
+# ============================================================
+resumen: >-
+  Analista NOC IT enfocado en la continuidad operativa de redes, sistemas y
+  servicios de conectividad. Monitoreo con Zabbix, Grafana y Unifi Network
+  Application; gestión de incidentes de punta a punta sobre equipamiento
+  Huawei y MikroTik; e informes RFO y RDO como insumo del análisis de causa raíz.
+
+diferencial: >-
+  Convierto incidentes recurrentes en procedimientos documentados, base de
+  conocimiento y automatizaciones que reducen tareas manuales. Ataco la causa
+  en lugar del síntoma.
+
+proyeccion: Observabilidad, automatización y análisis de datos aplicados a operaciones de red.
+
+# Datos verificables. REGLA: si no lo podés probar, no va.
+señales:
+  - { valor: "MTCNA + MTCRE",       etiqueta: "Doble acreditación MikroTik" }
+  - { valor: "Agente en producción", etiqueta: "Automatización del triage de incidentes, desarrollada en Python" }
+  - { valor: "RFO · RDO · SLA",      etiqueta: "Documentación de incidentes y nivel de servicio" }
+
+especialidades:
+  - Monitoreo y gestión de incidentes en NOC
+  - Troubleshooting de primer nivel y diagnóstico preliminar
+  - Informes RFO y RDO, y documentación de incidentes críticos
+  - Base de conocimiento y matrices de escalamiento
+  - Automatización de tareas operativas e integraciones
+  - Observabilidad e instrumentación
+  - Cumplimiento de SLA y continuidad operativa
+  - Guardias pasivas, remotas y activas
+
+# Competencias técnicas agrupadas.
+competencias_tecnicas:
+  - nombre: Networking
+    items: [TCP/IP, Routing, Switching, VLAN, VPN, DNS, DHCP, Wireless, GPON]
+  - nombre: Infraestructura
+    items: [Huawei, MikroTik, RouterOS, Winbox, TP-Link, Dahua, Radioenlaces]
+  - nombre: Monitoreo
+    items: [Zabbix, Grafana, Unifi Network Application, The Dude]
+  - nombre: Sistemas operativos
+    items: [Windows, Linux, macOS, Android, iOS]
+  - nombre: Programación
+    items: [Python, JavaScript, HTML, CSS, MySQL]
+  - nombre: Gestión IT
+    items: [CRM, ERP Odoo, Gestión de incidentes, Documentación técnica, Mantenimiento de hardware y software]
+
+# Competencias profesionales (las blandas, dichas de forma verificable).
+competencias:
+  - Comunicación técnica adaptada a audiencia técnica o comercial
+  - Priorización y seguimiento simultáneo de incidentes
+  - Decisión técnica bajo criticidad
+  - Organización y trazabilidad documental
+  - Colaboración con áreas internas, carriers y proveedores
+  - Orientación al cliente corporativo
+  - Capacidad de documentar y capacitar
+
+idiomas:
+  - { idioma: Español, nivel: Nativo, detalle: "" }
+  - { idioma: Inglés,  nivel: A2, detalle: "Lectura de documentación técnica y terminología de vendor. En formación activa." }

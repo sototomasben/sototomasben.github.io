@@ -1,0 +1,65 @@
+# ============================================================
+#  Publica el sitio en GitHub Pages en cada push a main.
+#  No hay que tocar nada de este archivo.
+# ============================================================
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:        # permite ejecutarlo a mano desde la pestaña Actions
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+
+      - name: Validar los datos
+        run: python build.py --check      # si un YAML está mal, el deploy se detiene acá
+
+      - name: Generar el sitio
+        run: python build.py
+
+      - name: Verificar que el PDF del CV esté publicado
+        run: |
+          # El nombre no se hardcodea: sale de data/site.yaml, igual que en build.py.
+          CV=$(python -c "import yaml;print(yaml.safe_load(open('data/site.yaml',encoding='utf-8'))['cv']['archivo'])")
+          if [ ! -f "dist/$CV" ]; then
+            echo "::error::Falta dist/$CV — el botón de descarga quedaría roto."
+            exit 1
+          fi
+          echo "PDF presente: $CV ($(du -h "dist/$CV" | cut -f1))"
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

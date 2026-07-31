@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="{{ site.seo.idioma }}" data-tema="oscuro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>{% if titulo %}{{ titulo }} · {% endif %}{{ site.nombre }} — {{ site.titular }}</title>
+<meta name="description" content="{{ descripcion | default(site.seo.descripcion, true) | trim }}">
+<meta name="keywords" content="{{ site.seo.keywords }}">
+<meta name="author" content="{{ site.nombre }}">
+<link rel="canonical" href="{{ site.canonical }}/{{ pagina }}">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{ site.nombre }} — {{ site.titular }}">
+<meta property="og:description" content="{{ descripcion | default(site.seo.descripcion, true) | trim }}">
+<meta property="og:locale" content="es_AR">
+<meta name="twitter:card" content="summary">
+
+<meta name="theme-color" content="#0A1014">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="{{ base }}static/css/tokens.css">
+<link rel="stylesheet" href="{{ base }}static/css/base.css">
+<link rel="stylesheet" href="{{ base }}static/css/components.css">
+
+<!-- Datos estructurados: ayuda a que Google entienda el perfil -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "{{ site.nombre }}",
+  "jobTitle": "{{ site.titular }}",
+  "description": "{{ site.seo.descripcion | trim }}",
+  "address": { "@type": "PostalAddress", "addressLocality": "{{ site.ubicacion }}" },
+  "email": "mailto:{{ site.contacto.email }}",
+  "sameAs": ["{{ site.contacto.linkedin_url }}"],
+  "knowsAbout": ["Network Operations Center", "MikroTik RouterOS", "Zabbix", "Grafana",
+                 "Radioenlaces", "TCP/IP", "Incident Management"]
+}
+</script>
+</head>
+<body>
+
+<a class="skip" href="#main">Saltar al contenido</a>
+
+<header class="nav">
+  <div class="wrap nav__in">
+    <a class="nav__brand" href="{{ base }}index.html">
+      <span class="dot" aria-hidden="true"></span>
+      <span>{{ site.nombre }}</span>
+    </a>
+
+    <nav class="nav__links" aria-label="Navegación principal">
+      {%- for n in site.nav %}
+      <a href="{{ base }}{{ n.href }}"{% if n.href == pagina %} aria-current="page"{% endif %}>{{ n.texto }}</a>
+      {%- endfor %}
+    </nav>
+
+    <div class="nav__side">
+      <button class="icon-btn" id="tema" type="button"
+              aria-label="Cambiar entre tema claro y oscuro" title="Cambiar tema">◐</button>
+      <button class="icon-btn nav__toggle" id="menu" type="button"
+              aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-mobile">≡</button>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <nav class="nav__mobile" id="nav-mobile" data-open="false" aria-label="Navegación móvil">
+      {%- for n in site.nav %}
+      <a href="{{ base }}{{ n.href }}">{{ n.texto }}</a>
+      {%- endfor %}
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+{% block contenido %}{% endblock %}
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__grid">
+      <div>
+        <div class="micro" style="margin-bottom:var(--s-3)">Contacto</div>
+        <div class="stack" style="--s-4: var(--s-2)">
+          <div><a href="mailto:{{ site.contacto.email }}">{{ site.contacto.email }}</a></div>
+          <div><a href="tel:{{ site.contacto.telefono_link }}">{{ site.contacto.telefono }}</a></div>
+          <div><a href="{{ site.contacto.linkedin_url }}" rel="me noopener">{{ site.contacto.linkedin }}</a></div>
+          <div style="color:var(--ink-3)">{{ site.ubicacion }}</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="micro" style="margin-bottom:var(--s-3)">Secciones</div>
+        <div class="stack" style="--s-4: var(--s-2)">
+          {%- for n in site.nav %}
+          <div><a href="{{ base }}{{ n.href }}">{{ n.texto }}</a></div>
+          {%- endfor %}
+        </div>
+      </div>
+
+      <div>
+        <div class="micro" style="margin-bottom:var(--s-3)">Herramientas</div>
+        <div class="stack" style="--s-4: var(--s-2)">
+          {%- for h in herramientas %}
+          <div><a href="{{ base }}herramientas/{{ h.slug }}.html">{{ h.nombre }}</a></div>
+          {%- endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="foot__note">
+      <span>{{ site.nombre }} · {{ site.titular }}</span>
+      <span class="mono">Sitio estático generado con Python y Jinja2 · sin dependencias de front-end</span>
+    </div>
+  </div>
+</footer>
+
+<script src="{{ base }}static/js/nav.js" defer></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

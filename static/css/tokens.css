@@ -1,0 +1,109 @@
+/* ==========================================================================
+   TOKENS — "Petrol Console"
+   Tema oscuro técnico, derivado del sistema Petrol Grid del CV impreso.
+   El CV es blanco por obligación de impresión; la web no tiene esa
+   restricción, así que el registro acá es de consola de operaciones.
+
+   Regla del sistema: un único acento. Los colores semánticos
+   (ok / warn / err) se usan SOLO para resultados de cálculo, nunca
+   como decoración.
+   ========================================================================== */
+
+:root {
+  /* ---------- superficies ---------- */
+  --bg-900: #0A1014;   /* fondo de página */
+  --bg-800: #0E171C;   /* secciones alternas */
+  --bg-700: #131F26;   /* tarjetas */
+  --bg-600: #18272F;   /* campos de formulario, hover */
+
+  /* ---------- líneas ---------- */
+  --line:   #1E2E37;   /* borde por defecto */
+  --line-2: #274049;   /* borde enfatizado */
+
+  /* ---------- tinta ---------- */
+  --ink:    #E9F0F3;   /* texto principal */
+  --ink-2:  #9FB2BB;   /* secundario */
+  --ink-3:  #6B7F89;   /* terciario, micro-labels */
+
+  /* ---------- acento (único) ---------- */
+  --acc:      #3E9DB5;
+  --acc-soft: #2A6E80;
+  --acc-glow: rgba(62, 157, 181, 0.14);
+
+  /* ---------- semánticos: solo resultados ---------- */
+  --ok:   #3FB68B;
+  --warn: #D9A441;
+  --err:  #D9635F;
+  --ok-bg:   rgba(63, 182, 139, 0.10);
+  --warn-bg: rgba(217, 164, 65, 0.10);
+  --err-bg:  rgba(217, 99, 95, 0.10);
+
+  /* ---------- tipografía ---------- */
+  --font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --fs-display: clamp(2.25rem, 5vw, 3.75rem);
+  --fs-h1:      clamp(1.75rem, 3.2vw, 2.5rem);
+  --fs-h2:      clamp(1.25rem, 2vw, 1.5rem);
+  --fs-h3:      1.0625rem;
+  --fs-body:    0.9375rem;   /* 15px */
+  --fs-sm:      0.875rem;    /* 14px */
+  --fs-xs:      0.8125rem;   /* 13px */
+  --fs-micro:   0.6875rem;   /* 11px — versalitas */
+
+  --lh-tight: 1.15;
+  --lh-snug:  1.4;
+  --lh-body:  1.65;
+
+  --tr-micro: 0.14em;   /* tracking de versalitas */
+  --tr-wide:  0.055em;
+
+  /* ---------- espaciado: grilla base 8 px ---------- */
+  --s-1: 0.25rem;   /*  4 */
+  --s-2: 0.5rem;    /*  8 */
+  --s-3: 0.75rem;   /* 12 */
+  --s-4: 1rem;      /* 16 */
+  --s-5: 1.5rem;    /* 24 */
+  --s-6: 2rem;      /* 32 */
+  --s-7: 3rem;      /* 48 */
+  --s-8: 4rem;      /* 64 */
+  --s-9: 6rem;      /* 96 */
+  --s-10: 8rem;     /* 128 */
+
+  /* ---------- geometría ---------- */
+  --r-sm: 3px;
+  --r-md: 6px;
+  --r-lg: 10px;
+
+  --maxw:      1140px;
+  --maxw-prose: 68ch;
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Tema claro opcional — coherente con el CV impreso.
+   Se activa con <html data-tema="claro">. */
+[data-tema="claro"] {
+  --bg-900: #FFFFFF;
+  --bg-800: #F7F9FA;
+  --bg-700: #FFFFFF;
+  --bg-600: #F2F5F7;
+  --line:   #E3E7EA;
+  --line-2: #CBD5DA;
+  --ink:    #0F1A1F;
+  --ink-2:  #3D464E;
+  --ink-3:  #6B747C;
+  --acc:      #12505F;
+  --acc-soft: #2E7D8F;
+  --acc-glow: rgba(18, 80, 95, 0.08);
+}
+
+/* Respeta a quien pidió menos movimiento. No es opcional. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

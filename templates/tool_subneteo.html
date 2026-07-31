@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% from "_macros.html" import sec %}
+{% set titulo = "Calculadora de subneteo y VLSM" %}
+{% set pagina = "herramientas.html" %}
+{% set descripcion = "Calculadora de subneteo IPv4 y asignación VLSM: red, broadcast, rango útil, wildcard y plan de direccionamiento exportable a CSV." %}
+
+{% block contenido %}
+<section class="section" style="padding-bottom:var(--s-6)">
+  <div class="wrap">
+    <a href="{{ base }}herramientas.html" class="micro" style="display:inline-block;margin-bottom:var(--s-5)">← Herramientas</a>
+    <h1 style="margin-bottom:var(--s-3)">Calculadora de subneteo y VLSM</h1>
+    <p class="prose">
+      Analiza un bloque IPv4 y genera un plan de direccionamiento VLSM a partir de una lista
+      de segmentos con su requerimiento de hosts. Las subredes se asignan de mayor a menor
+      y respetando alineación de bloque, que es lo que evita fragmentar el espacio.
+    </p>
+  </div>
+</section>
+
+<section class="wrap" style="padding-bottom:var(--s-9)">
+  <div class="tool">
+
+    <form class="panel panel--sticky" id="form" autocomplete="off" onsubmit="return false">
+      <div class="panel__h">
+        <span class="micro">Entrada</span>
+        <span class="micro mono" style="color:var(--acc)">IPv4</span>
+      </div>
+
+      <div class="fieldset">
+        <div class="field">
+          <label for="cidr">Bloque base <span class="u">CIDR</span></label>
+          <input type="text" id="cidr" value="192.168.0.0/22" spellcheck="false" inputmode="numeric">
+          <span class="hint">Aceptado: <span class="mono">10.0.0.0/8</span> o solo la dirección, completando la máscara abajo.</span>
+        </div>
+
+        <div class="field">
+          <label for="mask">Máscara <span class="u">decimal punteada</span></label>
+          <input type="text" id="mask" value="255.255.252.0" spellcheck="false" inputmode="numeric">
+          <span class="hint">Se ignora si el bloque ya trae prefijo con barra.</span>
+        </div>
+
+        <div class="sub-h">Segmentos a asignar</div>
+        <div class="field">
+          <label for="reqs">Uno por línea <span class="u">nombre: hosts</span></label>
+          <textarea id="reqs" rows="8" spellcheck="false">Oficinas: 300
+WiFi corporativa: 200
+VoIP: 100
+CCTV: 60
+Servidores: 25
+Gestión de red: 12
+Enlace WAN: 2</textarea>
+          <span class="hint">El orden que escribas no importa: se asigna de mayor a menor.</span>
+        </div>
+
+        <div class="sub-h">Criterio para enlaces punto a punto</div>
+        <div class="field">
+          <label for="p2p31" style="flex-direction:row;align-items:center;gap:var(--s-2);cursor:pointer">
+            <input type="checkbox" id="p2p31" style="width:auto;margin:0">
+            <span>Usar /31 en segmentos de 2 hosts <span class="u">RFC 3021</span></span>
+          </label>
+          <span class="hint">Desactivado asigna /30, que es lo universalmente compatible.
+          Activado sigue RFC 3021: correcto en equipamiento moderno, puede fallar en stacks antiguos.</span>
+        </div>
+
+        <div class="sub-h">Escenarios</div>
+        <div class="tags">
+          <button type="button" class="btn" style="padding:var(--s-2) var(--s-3);font-size:var(--fs-xs)" data-preset="campus">Campus /22</button>
+          <button type="button" class="btn" style="padding:var(--s-2) var(--s-3);font-size:var(--fs-xs)" data-preset="isp">ISP /16</button>
+          <button type="button" class="btn" style="padding:var(--s-2) var(--s-3);font-size:var(--fs-xs)" data-preset="sitio">Sitio remoto /24</button>
+        </div>
+      </div>
+    </form>
+
+    <div class="out">
+      <div class="verdict" id="verdict" data-estado="ok" role="status" aria-live="polite">
+        <span class="verdict__dot" aria-hidden="true"></span>
+        <div>
+          <div class="verdict__t" id="verdict-t">—</div>
+          <div class="verdict__d" id="verdict-d">—</div>
+        </div>
+      </div>
+
+      <div class="kpis" id="kpis"></div>
+
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <caption>Plan de direccionamiento VLSM</caption>
+          <thead>
+            <tr>
+              <th scope="col">Segmento</th>
+              <th scope="col">Hosts</th>
+              <th scope="col">CIDR</th>
+              <th scope="col">Máscara</th>
+              <th scope="col">Rango útil</th>
+              <th scope="col">Broadcast</th>
+              <th scope="col">Sobrante</th>
+            </tr>
+          </thead>
+          <tbody id="vlsm-body"></tbody>
+        </table>
+      </div>
+      <p class="micro" id="vlsm-foot" style="letter-spacing:0;text-transform:none;line-height:1.6"></p>
+
+      <div style="display:flex;gap:var(--s-3);flex-wrap:wrap">
+        <button class="btn" type="button" id="exportar">Exportar plan a CSV</button>
+      </div>
+
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <caption>Detalle del bloque base</caption>
+          <thead><tr><th scope="col">Parámetro</th><th scope="col">Valor</th></tr></thead>
+          <tbody id="detalle"></tbody>
+        </table>
+      </div>
+
+      <div class="note">
+        <strong>Criterios de cálculo.</strong>
+        <ul>
+          <li>Hosts utilizables: <span class="mono">2^(32−prefijo) − 2</span>, descontando dirección de red y broadcast.</li>
+          <li><span class="mono">/31</span> se trata según RFC 3021: 2 direcciones utilizables en enlaces punto a punto, sin red ni broadcast.</li>
+          <li><span class="mono">/32</span> se trata como host único, típico de loopbacks.</li>
+          <li>Asignación VLSM de mayor a menor, con cada subred alineada a un múltiplo de su propio tamaño.</li>
+          <li>Ámbito según RFC 1918, RFC 6598 (CGNAT) y RFC 3927 (link-local).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ base }}static/js/subneteo.js" defer></script>
+{% endblock %}

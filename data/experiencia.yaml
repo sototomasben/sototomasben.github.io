@@ -1,0 +1,67 @@
+# ============================================================
+#  Experiencia profesional
+#
+#  Los bullets de COMTEC están alineados a la descripción formal del
+#  puesto de Analista NOC IT. Nada de lo que figura acá excede
+#  el alcance definido en ella: el cálculo,
+#  dimensionamiento y diseño de ingenierías corresponde al área de
+#  Ingeniería, no al NOC.
+#
+#  Tiempo verbal: puesto actual en presente, anteriores en pasado.
+#  Excepción deliberada: los logros puntuales ya completados van en
+#  pasado incluso dentro del puesto actual.
+# ============================================================
+puestos:
+  - rol: Analista NOC IT
+    empresa: COMTEC S.A.
+    descriptor: Integradora de infraestructura crítica
+    lugar: Salta, Argentina
+    desde: Agosto 2025
+    hasta: Presente
+    actual: true
+    nota: ""
+    bullets:
+      - Monitoreo redes, enlaces, sistemas y servicios de conectividad mediante Zabbix, Grafana, Unifi Network Application y plataformas de videovigilancia, detectando y clasificando incidentes por impacto, criticidad, alcance y prioridad.
+      - Ejecuto troubleshooting de primer nivel y diagnóstico preliminar de fallas de conectividad, networking, infraestructura y servicios asociados sobre equipamiento Huawei y MikroTik.
+      - "Administro el ciclo de vida del ticket — registro, categorización, actualización y cierre — asegurando trazabilidad y evidencia de cada acción, y escalo a las áreas técnicas internas, carriers o proveedores según la naturaleza del incidente."
+      - Contribuyo al cumplimiento de los acuerdos de nivel de servicio (SLA) actuando como nexo entre los clientes corporativos y las áreas técnicas internas.
+      - Elaboro informes RFO (Reason For Outage) y RDO, y documento incidentes críticos para habilitar el análisis de causa raíz y la mejora continua del área.
+      - Genero y mantengo procedimientos, instructivos, matrices de escalamiento y la base de conocimiento del NOC.
+      - Diseño y mantengo automatizaciones que reducen tareas manuales y mejoran los tiempos de respuesta, incluyendo integraciones entre plataformas de monitoreo, bots y el sistema de tickets.
+      - Diseño y actualizo diagramas de red para la documentación de infraestructura, y aporto mediciones, pruebas y validaciones a los proyectos de Ingeniería.
+      - Gestiono las comunicaciones durante incidentes con actualizaciones periódicas, adaptando el lenguaje a audiencia técnica o comercial.
+      - Cumplo esquemas de guardia pasiva, remota y activa, con registro de intervenciones y traspaso ordenado de novedades.
+      - Estandaricé procedimientos técnicos del área NOC, convirtiendo diagnósticos ad-hoc en material reutilizable por toda la primera línea.
+
+  - rol: Soporte Técnico y Atención al Cliente
+    empresa: NUBICOM S.R.L.
+    descriptor: ISP regional de fibra óptica y wireless
+    lugar: Salta, Argentina
+    desde: Marzo 2023
+    hasta: Julio 2025
+    actual: false
+    nota: ""
+    bullets:
+      - Resolví incidencias de conectividad a Internet diagnosticando fallas de última milla, CPE, radioenlaces y degradación de servicio con herramientas de gestión de red.
+      - Diagnostiqué bajo un método estructurado sobre TCP/IP, DNS, DHCP, Wi-Fi y equipamiento de cliente, resolviendo en primer contacto y evitando derivaciones innecesarias a niveles superiores.
+      - Documenté cada interacción en CRM, generando la trazabilidad para análisis de recurrencia, control de calidad y detección de fallas sistémicas en la red de acceso.
+      - Colaboré con el área comercial integrando diagnóstico técnico y asesoramiento de planes, sosteniendo la retención de clientes en un mercado de alta competencia.
+      - Consolidé criterio operativo sobre redes de acceso inalámbrico y fibra óptica en producción, base directa de mi salto posterior al NOC.
+
+  - rol: Representante de Atención Técnica al Cliente
+    empresa: KROK VPRED S.R.L.
+    descriptor: ""
+    lugar: ""
+    desde: Enero 2022
+    hasta: Marzo 2023
+    actual: false
+    nota: ""
+    bullets:
+      - Atendí consultas técnicas y funcionales de alto volumen por canal telefónico, traduciendo problemas complejos en instrucciones ejecutables por el usuario final.
+      - Estandaricé el registro de interacciones en CRM, alimentando indicadores de calidad y el análisis de causas recurrentes del área.
+
+complementaria:
+  rol: Preceptor
+  empresa: Instituto Superior del Milagro N°8207
+  periodo: Marzo — Abril 2024
+  descripcion: Coordinación operativa, control de asistencia y gestión de contingencias bajo protocolo institucional.

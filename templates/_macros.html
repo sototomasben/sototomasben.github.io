@@ -1,0 +1,59 @@
+{# =======================================================================
+   Macros reutilizables. Equivalente a los componentes del design system.
+   ======================================================================= #}
+
+{% macro sec(idx, titulo) %}
+<div class="sec-head">
+  <span class="idx">{{ "%02d"|format(idx) }}</span>
+  <h2>{{ titulo }}</h2>
+</div>
+{% endmacro %}
+
+{% macro tags(items, acc=false) %}
+<ul class="tags">
+  {%- for i in items %}
+  <li class="tag{% if acc %} tag--acc{% endif %}">{{ i }}</li>
+  {%- endfor %}
+</ul>
+{% endmacro %}
+
+{% macro dash(items) %}
+<ul class="dash">
+  {%- for i in items %}<li><span>{{ i }}</span></li>{%- endfor %}
+</ul>
+{% endmacro %}
+
+{% macro puesto(p) %}
+<div class="tl__item" data-actual="{{ 'true' if p.actual else 'false' }}">
+  <div class="tl__rol">{{ p.rol }}</div>
+  <div class="tl__org">{{ p.empresa }}{% if p.descriptor %} — {{ p.descriptor }}{% endif %}</div>
+  <div class="tl__meta">{% if p.lugar %}{{ p.lugar }} · {% endif %}{{ p.desde }} — {{ p.hasta }}</div>
+  {% if p.nota %}<div class="tl__nota">{{ p.nota }}</div>{% endif %}
+  <ul class="tl__bullets">
+    {%- for b in p.bullets %}<li><span>{{ b }}</span></li>{%- endfor %}
+  </ul>
+</div>
+{% endmacro %}
+
+{% macro card_herramienta(h, base) %}
+<a class="card" href="{{ base }}herramientas/{{ h.slug }}.html">
+  <div class="card__top">
+    <h3>{{ h.nombre }}</h3>
+    <span class="card__arrow" aria-hidden="true">→</span>
+  </div>
+  <p>{{ h.resumen | trim }}</p>
+  {{ tags(h.etiquetas) }}
+  <div class="card__for">{{ h.para }}</div>
+</a>
+{% endmacro %}
+
+{% macro card_caso(c, base) %}
+<a class="card" href="{{ base }}casos/{{ c.slug }}.html">
+  <div class="card__top">
+    <h3>{{ c.titulo }}</h3>
+    <span class="card__arrow" aria-hidden="true">→</span>
+  </div>
+  <p>{{ c.resumen | trim }}</p>
+  {{ tags(c.etiquetas) }}
+</a>
+{% endmacro %}

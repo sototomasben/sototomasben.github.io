@@ -1,0 +1,147 @@
+# ============================================================
+#  Casos de estudio
+#  Estructura obligatoria: contexto -> problema -> método -> resultado
+#
+#  REGLA CRÍTICA: "metricas" solo se completa con datos que puedas
+#  probar. Si está vacío, la plantilla muestra una nota metodológica
+#  en lugar de inventar cifras.
+#
+#  Todos los casos están dentro del alcance formal del puesto.
+# ============================================================
+casos:
+  - slug: agente-noc-autonomo
+    titulo: Agente NOC autónomo para una red FTTH
+    resumen: >-
+      Desarrollé en Python un agente que automatiza el ciclo completo de un
+      incidente de red: detecta la alerta, la clasifica, la correlaciona con el
+      estado de energía del sitio, abre el ticket y notifica a la guardia. Sin
+      intervención humana en el triage.
+    etiquetas: [Python, Automatización, Observabilidad, FTTH, GPON, Integraciones]
+    destacado: true
+    estado: En producción, con evolución incremental activa
+    objetivo: >-
+      Que el operador de NOC deje de hacer triage manual y pueda dedicar su
+      tiempo al diagnóstico y la resolución, que es donde su criterio técnico
+      realmente vale.
+    contexto: >-
+      Red de acceso FTTH/GPON (Fiber To The Home / Gigabit Passive Optical
+      Network) de un ISP regional, monitoreada desde el NOC de una integradora
+      de infraestructura crítica. Alertas en Zabbix, mesa de ayuda en Odoo,
+      guardia coordinada por Telegram.
+    problema:
+      - El monitoreo generaba un volumen alto de alertas individuales por nodo y por puerto PON, sin agrupamiento ni jerarquía de causa raíz.
+      - El operador debía interpretar cada alerta a mano, decidir si era una caída de fibra o un corte de energía, y solo entonces abrir el ticket y avisar.
+      - El flapping — alertas que aparecen y se resuelven en segundos — generaba tickets y notificaciones sin valor, con riesgo de saturar los canales de aviso.
+      - Un corte de luz en una localidad disparaba alertas de pérdida óptica que, leídas fuera de contexto, terminaban en tickets de falla de red incorrectos.
+    metodo:
+      - paso: Ingesta
+        detalle: Consulta periódica a la API de Zabbix para obtener alertas activas y resueltas.
+      - paso: Clasificación
+        detalle: "Distinción automática entre pérdida de señal óptica (PON LOSS), Dying Gasp — el aviso de apagado que emite la ONU cuando se queda sin alimentación — y fallas de energía, resolviendo el tipo de evento por mayoría de ONU afectadas en el puerto."
+      - paso: Correlación
+        detalle: Verificación del estado de energía de la localidad ANTES de clasificar el evento. La misma alerta óptica significa cosas distintas según si hay luz o no.
+      - paso: Consolidación
+        detalle: Ventana temporal que unifica las alertas del mismo nodo y evento en un único incidente, y filtrado de resoluciones de duración nula.
+      - paso: Registro
+        detalle: Creación automática del ticket en Odoo vía API JSON-RPC, con trazabilidad del evento que lo originó.
+      - paso: Notificación
+        detalle: Aviso a la guardia por Telegram, con control de estado para no repetir mensajes de apertura ni de cierre.
+    resultado:
+      - "Triage automatizado de punta a punta: de la alerta cruda al ticket abierto y el equipo notificado, sin intervención manual."
+      - Un evento de red genera una sola comunicación en lugar de múltiples avisos por nodo, gracias a la ventana de consolidación y al control de notificaciones ya enviadas.
+      - Se eliminaron los tickets de falla de fibra abiertos por error durante cortes eléctricos, al evaluar el contexto de energía antes de clasificar.
+      - Migré el backend de ticketing a la plataforma corporativa vigente mediante integración por API, sin interrumpir el servicio de monitoreo.
+      - Diagnostiqué y corregí un conflicto de integración que bloqueaba la creación automática de tareas por API.
+      - "Encontré un defecto de estado no evidente: el monitoreo reutiliza el identificador de disparador después de resolver una alerta, y el agente heredaba banderas obsoletas y omitía notificaciones. Implementé detección explícita de reaparición y reseteo de estado."
+      - Rediseñé la evaluación de la ventana de consolidación para procesar también alertas persistidas de ejecuciones anteriores, eliminando eventos que se descartaban en silencio tras un reinicio.
+      - Habilité y validé el acceso administrativo a la flota de OLT, dejando disponible la vía para el diagnóstico automatizado en planta.
+    decisiones:
+      - titulo: Priorizar la calidad de la señal sobre el volumen de avisos
+        detalle: Un NOC saturado de notificaciones deja de leerlas. El valor del agente está en agrupar y jerarquizar, no solo en avisar.
+      - titulo: Correlacionar antes de clasificar
+        detalle: El contexto de energía del sitio se evalúa antes de decidir el tipo de incidente, no después.
+      - titulo: No confiar en la estabilidad de identificadores externos
+        detalle: Los sistemas de terceros reutilizan identificadores. El estado interno se valida contra la realidad del evento en lugar de asumirse persistente.
+      - titulo: Diseñar para el reinicio
+        detalle: Todo estado relevante se persiste y se reevalúa al arrancar, asumiendo que el proceso puede caerse en cualquier punto del ciclo.
+    proxima_fase:
+      - Diagnóstico automatizado directamente sobre el equipamiento de planta, para enriquecer el incidente antes de escalarlo.
+      - Consolidación del agrupamiento de alertas resueltas por localidad y tipo de evento.
+      - Validación y normalización de la nomenclatura de triggers de energía, para asegurar cobertura completa de la lógica de correlación.
+    metricas: []
+    stack: [Python, API REST, JSON-RPC, Bots de mensajería, FTTH, GPON, OLT, SSH]
+
+  - slug: estandarizacion-troubleshooting
+    titulo: Estandarización de los procedimientos técnicos del NOC
+    resumen: >-
+      Los diagnósticos del área dependían del conocimiento tácito de cada
+      operador. Convertí ese conocimiento disperso en procedimientos
+      documentados y reutilizables.
+    etiquetas: [NOC, Documentación, Base de conocimiento, Mejora continua]
+    destacado: true
+    contexto: >-
+      Centro de operaciones de red de una integradora de infraestructura crítica,
+      sobre plataformas Huawei y MikroTik, con monitoreo
+      centralizado en Zabbix, Grafana y Unifi Network Application.
+    problema:
+      - El diagnóstico de una misma falla variaba según quién la atendiera.
+      - El conocimiento operativo vivía en la memoria del equipo, no en un documento.
+      - Cada incidente recurrente se resolvía desde cero, sin aprovechar el trabajo anterior.
+      - La primera línea escalaba casos que podía resolver, por falta de un camino claro.
+    metodo:
+      - paso: Relevamiento de incidentes recurrentes
+        detalle: Identifiqué los patrones de falla que se repetían y agrupé los que compartían causa raíz.
+      - paso: Reconstrucción del árbol de diagnóstico
+        detalle: Para cada patrón, ordené la secuencia de verificación de lo más probable y menos costoso a lo más improbable y costoso.
+      - paso: Redacción de procedimientos e instructivos
+        detalle: Escribí cada procedimiento con condición de entrada, pasos verificables, criterio de escalamiento y criterio de cierre.
+      - paso: Matrices de escalamiento
+        detalle: Definí a qué área corresponde cada tipo de incidente para que el escalamiento deje de ser discrecional, en lugar de quedar a criterio del operador de turno.
+      - paso: Validación en operación
+        detalle: Apliqué los procedimientos sobre incidentes reales y ajusté los pasos que resultaban ambiguos.
+      - paso: Incorporación a la base de conocimiento
+        detalle: Los procedimientos quedaron disponibles como material de consulta permanente de la primera línea.
+    resultado:
+      - Diagnósticos ad-hoc convertidos en material técnico reutilizable.
+      - Camino de diagnóstico explícito y auditable para los incidentes más frecuentes.
+      - Menor dependencia del conocimiento tácito de personas individuales.
+      - Criterio de escalamiento definido, en lugar de discrecional.
+    metricas: []
+    stack: [Zabbix, Grafana, Unifi Network Application, Huawei, MikroTik, Sistema de tickets]
+
+  - slug: informes-rfo-causa-raiz
+    titulo: Informes RFO y análisis de causa raíz de incidentes críticos
+    resumen: >-
+      Un incidente cerrado sin informe es un incidente que se va a repetir.
+      Elaboro los reportes post-incidente que habilitan el análisis de causa
+      raíz y alimentan la mejora continua del área.
+    etiquetas: [RFO, RDO, Causa raíz, SLA, Documentación]
+    destacado: true
+    contexto: >-
+      Incidentes sobre infraestructura de telecomunicaciones con impacto en
+      clientes corporativos, donde el cumplimiento de los acuerdos de nivel de
+      servicio exige explicar qué pasó, por qué, y qué se hizo para que no
+      vuelva a pasar.
+    problema:
+      - Sin reporte formal, la causa del incidente se pierde cuando el servicio vuelve.
+      - El cliente corporativo necesita una explicación trazable, no un "ya está resuelto".
+      - Los mismos incidentes reaparecían sin que quedara registro del patrón.
+      - La información quedaba dispersa entre tickets, chats y memoria de los turnos.
+    metodo:
+      - paso: Consolidación de evidencia
+        detalle: Recopilo alarmas, mediciones, capturas de las plataformas de monitoreo y el historial completo del ticket.
+      - paso: Reconstrucción de la línea de tiempo
+        detalle: Ordeno detección, escalamiento, intervenciones y restauración con marcas horarias, que es la base de cualquier análisis serio.
+      - paso: Identificación de causa raíz
+        detalle: Aporto el análisis operativo y articulo con las áreas de ingeniería cuando la causa está en capas que no son de mi alcance.
+      - paso: Redacción del RFO
+        detalle: Documento impacto, alcance, causa, acciones ejecutadas y acciones preventivas, en un lenguaje que sirva tanto al área técnica como al cliente.
+      - paso: Cierre del bucle
+        detalle: Lo que el informe revela se traduce en procedimiento, ajuste de monitoreo o automatización.
+    resultado:
+      - Incidentes críticos con documentación trazable y auditable.
+      - Insumo formal para el análisis de causa raíz de las áreas de ingeniería.
+      - Comunicación al cliente corporativo sostenida en evidencia, no en percepción.
+      - Patrones de recurrencia visibles y por lo tanto atacables.
+    metricas: []
+    stack: [Zabbix, Grafana, Sistema de tickets, RFO, RDO]

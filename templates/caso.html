@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% from "_macros.html" import sec, tags, dash %}
+{% set titulo = caso.titulo %}
+{% set pagina = "casos.html" %}
+{% set descripcion = caso.resumen %}
+
+{% block contenido %}
+<section class="section">
+  <div class="wrap prose">
+    <a href="{{ base }}casos.html" class="micro" style="display:inline-block;margin-bottom:var(--s-5)">← Casos de estudio</a>
+
+    <div class="case-head">
+      {% if caso.get('estado') %}
+      <div class="estado"><span class="dot" aria-hidden="true"></span>{{ caso.estado }}</div>
+      {% endif %}
+      <h1 style="margin-bottom:var(--s-4)">{{ caso.titulo }}</h1>
+      <p style="margin-bottom:var(--s-4)">{{ caso.resumen | trim }}</p>
+      {{ tags(caso.etiquetas) }}
+    </div>
+
+    {% if caso.get('objetivo') %}
+    <div class="objetivo">
+      <div class="micro" style="margin-bottom:var(--s-2)">Objetivo</div>
+      <p>{{ caso.objetivo | trim }}</p>
+    </div>
+    {% endif %}
+
+    {{ sec(1, "Contexto") }}
+    <p>{{ caso.contexto | trim }}</p>
+
+    <div style="margin-top:var(--s-8)"></div>
+    {{ sec(2, "Problema") }}
+    {{ dash(caso.problema) }}
+
+    <div style="margin-top:var(--s-8)"></div>
+    {{ sec(3, "Método") }}
+    <div class="steps">
+      {%- for m in caso.metodo %}
+      <div class="step">
+        <div class="step__n" aria-hidden="true"></div>
+        <div>
+          <div class="step__t">{{ m.paso }}</div>
+          <div class="step__d">{{ m.detalle }}</div>
+        </div>
+      </div>
+      {%- endfor %}
+    </div>
+
+    <div style="margin-top:var(--s-8)"></div>
+    {{ sec(4, "Resultado") }}
+    {{ dash(caso.resultado) }}
+
+    {% if caso.metricas %}
+    <div style="margin-top:var(--s-6)">
+      <div class="kpis">
+        {%- for m in caso.metricas %}
+        <div class="kpi"><div class="kpi__k">{{ m.etiqueta }}</div><div class="kpi__v">{{ m.valor }}</div></div>
+        {%- endfor %}
+      </div>
+    </div>
+    {% else %}
+    <div class="note" style="margin-top:var(--s-6)">
+      <strong>Nota metodológica.</strong> Este caso se presenta sin métricas cuantificadas
+      porque los valores correspondientes no fueron medidos de forma sistemática en su momento.
+      Preferimos no publicar una cifra que no se pueda sostener frente a una revisión técnica.
+    </div>
+    {% endif %}
+
+    {% if caso.get('decisiones') %}
+    <div style="margin-top:var(--s-8)"></div>
+    {{ sec(5, "Decisiones técnicas") }}
+    <div class="steps">
+      {%- for dec in caso.decisiones %}
+      <div class="step">
+        <div class="step__n" aria-hidden="true"></div>
+        <div>
+          <div class="step__t">{{ dec.titulo }}</div>
+          <div class="step__d">{{ dec.detalle }}</div>
+        </div>
+      </div>
+      {%- endfor %}
+    </div>
+    {% endif %}
+
+    {% if caso.get('proxima_fase') %}
+    <div style="margin-top:var(--s-8)"></div>
+    {{ sec(6, "Próxima fase") }}
+    {{ dash(caso.proxima_fase) }}
+    {% endif %}
+
+    <div style="margin-top:var(--s-7)">
+      <div class="micro" style="margin-bottom:var(--s-3)">Stack involucrado</div>
+      {{ tags(caso.stack, acc=true) }}
+    </div>
+  </div>
+</section>
+{% endblock %}

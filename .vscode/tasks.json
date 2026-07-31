@@ -1,0 +1,30 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build",
+      "type": "shell",
+      "command": "${workspaceFolder}/.venv/bin/python build.py",
+      "windows": { "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe build.py" },
+      "problemMatcher": [],
+      "group": { "kind": "build", "isDefault": true },
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "Dev  (build + watch + servidor)",
+      "type": "shell",
+      "command": "${workspaceFolder}/.venv/bin/python serve.py",
+      "windows": { "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe serve.py" },
+      "problemMatcher": [],
+      "isBackground": true,
+      "presentation": { "reveal": "always", "panel": "dedicated" }
+    },
+    {
+      "label": "Limpiar dist",
+      "type": "shell",
+      "command": "${workspaceFolder}/.venv/bin/python build.py --clean",
+      "windows": { "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe build.py --clean" },
+      "problemMatcher": []
+    }
+  ]
+}

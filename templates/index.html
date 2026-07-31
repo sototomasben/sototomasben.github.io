@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% from "_macros.html" import sec, tags, dash, card_herramienta, card_caso %}
+
+{% block contenido %}
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero__eyebrow">
+      <span class="bar" aria-hidden="true"></span>
+      <span class="micro">{{ site.ubicacion }}</span>
+    </div>
+
+    <h1 class="hero__name">Tomás Benjamín <strong>Soto</strong></h1>
+    <p class="hero__role">{{ site.titular }} &nbsp;·&nbsp; {{ site.subtitular }}</p>
+
+    <p class="hero__lead">{{ perfil.resumen | trim }}</p>
+    <p class="hero__diff">{{ perfil.diferencial | trim }}</p>
+
+    <div class="hero__cta">
+      <a class="btn btn--primary" href="{{ base }}herramientas.html">Ver herramientas</a>
+      <a class="btn" href="{{ base }}trayectoria.html">Trayectoria</a>
+      <a class="btn btn--ghost" href="{{ base }}{{ site.cv.archivo }}" download>{{ site.cv.etiqueta }}</a>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" style="padding-bottom:var(--s-8)">
+  <div class="signals">
+    {%- for s in perfil['señales'] %}
+    <div class="signal">
+      <div class="signal__v">{{ s.valor }}</div>
+      <div class="signal__k">{{ s.etiqueta }}</div>
+    </div>
+    {%- endfor %}
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="wrap">
+    {{ sec(1, "Herramientas") }}
+    <p class="prose" style="margin-bottom:var(--s-6)">
+      Calculadoras que uso en el trabajo real, reescritas para que funcionen en el navegador.
+      Sin registro, sin backend: todo el cálculo corre en tu equipo y las fórmulas están
+      documentadas en cada página.
+    </p>
+    <div class="cards cards--2">
+      {%- for h in herramientas %}{{ card_herramienta(h, base) }}{%- endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    {{ sec(2, "Casos de estudio") }}
+    <p class="prose" style="margin-bottom:var(--s-6)">
+      Cómo trabajo, en formato contexto → problema → método → resultado.
+    </p>
+    <div class="cards cards--2">
+      {%- for c in casos if c.destacado %}{{ card_caso(c, base) }}{%- endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="wrap">
+    {{ sec(3, "Stack técnico") }}
+    <div class="tgrid">
+      {%- for g in tecnologias.grupos %}
+      <div>
+        <div class="micro tgroup__h">{{ g.nombre }}</div>
+        {{ tags(g['items']) }}
+      </div>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap grid-2">
+    <div>
+      {{ sec(4, "Especialidades") }}
+      {{ dash(perfil.especialidades) }}
+    </div>
+    <div>
+      {{ sec(5, "Competencias profesionales") }}
+      {{ dash(perfil.competencias) }}
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="wrap">
+    {{ sec(6, "Tecnologías") }}
+    <p class="prose" style="margin-bottom:var(--s-5)">
+      Listado plano de tecnologías y términos técnicos, para lectura por sistemas
+      de seguimiento de candidaturas y para búsqueda con Ctrl+F.
+    </p>
+    <div class="ats">{{ tecnologias.ats | trim }}</div>
+  </div>
+</section>
+
+{% endblock %}

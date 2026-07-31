@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% from "_macros.html" import sec, card_herramienta %}
+{% set titulo = "Herramientas" %}
+{% set pagina = "herramientas.html" %}
+
+{% block contenido %}
+<section class="section">
+  <div class="wrap">
+    <h1 style="margin-bottom:var(--s-3)">Herramientas</h1>
+    <p class="prose" style="margin-bottom:var(--s-8)">
+      Calculadoras de ingeniería de red escritas en JavaScript, sin dependencias ni backend.
+      Todo el cálculo corre en tu navegador y cada página documenta las fórmulas que usa,
+      para que puedas verificar el resultado en lugar de confiar en él.
+    </p>
+    <div class="cards cards--2">
+      {%- for h in herramientas %}{{ card_herramienta(h, base) }}{%- endfor %}
+    </div>
+
+    <div class="note" style="margin-top:var(--s-6)">
+      <strong>Encuadre.</strong> Estas herramientas las construí como ejercicio técnico
+      y de programación. No representan una atribución de funciones: en mi rol de
+      Analista NOC IT aporto mediciones, pruebas y validaciones a los proyectos de
+      Ingeniería, mientras que el cálculo, dimensionamiento y diseño de ingenierías
+      corresponde a esa área.
+    </div>
+  </div>
+</section>
+{% endblock %}

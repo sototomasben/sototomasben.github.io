@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% from "_macros.html" import sec, puesto, tags %}
+{% set titulo = "Trayectoria" %}
+{% set pagina = "trayectoria.html" %}
+
+{% block contenido %}
+<section class="section">
+  <div class="wrap">
+    <h1 style="margin-bottom:var(--s-3)">Trayectoria</h1>
+    <p class="prose" style="margin-bottom:var(--s-8)">
+      De la primera línea de soporte de un proveedor de Internet al centro de operaciones
+      de red de una integradora de infraestructura crítica.
+      <strong>{{ perfil.proyeccion }}</strong>
+    </p>
+
+    {{ sec(1, "Experiencia") }}
+    <div class="tl">
+      {%- for p in experiencia.puestos %}{{ puesto(p) }}{%- endfor %}
+    </div>
+
+    <div class="aside-block">
+      <div class="micro" style="margin-bottom:var(--s-2)">Experiencia complementaria</div>
+      <div style="color:var(--ink);font-weight:600;font-size:var(--fs-sm)">{{ experiencia.complementaria.rol }}</div>
+      <div class="tl__meta">{{ experiencia.complementaria.empresa }} · {{ experiencia.complementaria.periodo }}</div>
+      <p style="font-size:var(--fs-sm);margin-top:var(--s-2)">{{ experiencia.complementaria.descripcion }}</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="wrap">
+    {{ sec(2, "Certificaciones") }}
+    <div class="certs">
+      {%- for c in educacion.certificaciones %}
+      <div class="cert-row" data-destacada="{{ 'true' if c.destacada else 'false' }}">
+        <span class="cert-row__sigla">{{ c.sigla }}</span>
+        <span class="cert-row__nombre">{{ c.nombre }}</span>
+        <span class="cert-row__emisor">{{ c.emisor }}</span>
+      </div>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap grid-2">
+    <div>
+      {{ sec(3, "Educación") }}
+      {%- for t in educacion.titulos %}
+      <div class="edu-item">
+        <div class="edu-item__t">{{ t.titulo }}</div>
+        <div class="edu-item__i">{{ t.institucion }}</div>
+        <div class="edu-item__y">{{ t.periodo }}{% if t.estado %} · {{ t.estado }}{% endif %}</div>
+      </div>
+      {%- endfor %}
+    </div>
+    <div>
+      {{ sec(4, "Idiomas") }}
+      {%- for i in perfil.idiomas %}
+      <div class="edu-item">
+        <div class="edu-item__t">{{ i.idioma }} — {{ i.nivel }}</div>
+        {% if i.detalle %}<div class="edu-item__i">{{ i.detalle }}</div>{% endif %}
+      </div>
+      {%- endfor %}
+
+      <div style="margin-top:var(--s-6)">
+        <a class="btn" href="{{ base }}{{ site.cv.archivo }}" download>{{ site.cv.etiqueta }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

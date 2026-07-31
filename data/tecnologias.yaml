@@ -1,0 +1,39 @@
+# ============================================================
+#  Stack técnico
+#
+#  Dos vistas del mismo contenido:
+#   · grupos      -> lectura humana, agrupada por dominio
+#   · ats         -> cadena plana pensada para Applicant Tracking Systems
+#
+#  REGLA: solo lo que puedas defender 3 minutos en entrevista.
+# ============================================================
+grupos:
+  - nombre: Networking
+    items: [TCP/IP, Routing, Switching, VLAN, VPN, DNS, DHCP, Wireless, GPON, FTTH]
+  - nombre: Infraestructura
+    items: [Huawei, MikroTik, RouterOS, Winbox, TP-Link, Dahua, Radioenlaces, OLT, ONU, GPON, SSH]
+  - nombre: Monitoreo
+    items: [Zabbix, Grafana, Unifi Network Application, The Dude]
+  - nombre: Sistemas operativos
+    items: [Windows, Linux, macOS, Android, iOS]
+  - nombre: Programación
+    items: [Python, JavaScript, HTML, CSS, MySQL, API REST, JSON-RPC, Telegram Bot API]
+  - nombre: Gestión IT
+    items: [CRM, ERP Odoo, Jira, Gestión de incidentes, Documentación técnica, Mantenimiento de hardware y software]
+
+# ------------------------------------------------------------
+#  Bloque ATS.
+#  La primera línea es el núcleo que definiste. La segunda agrega
+#  los términos que figuran textualmente en la descripción formal del
+#  puesto: son keywords de alto valor y 100 % defendibles porque
+#  corresponden a funciones efectivamente asignadas.
+# ------------------------------------------------------------
+ats: >-
+  Huawei · MikroTik · RouterOS · Winbox · TCP/IP · VLAN · Routing · Switching ·
+  VPN · DNS · DHCP · Wireless · Zabbix · Grafana · The Dude · Odoo · CRM ·
+  Python · MySQL · Microsoft Office · NOC · Network Operations Center ·
+  Unifi Network Application · GPON · SLA · RFO · RDO · Gestión de incidentes ·
+  Incident Management · Troubleshooting · Observabilidad · Automatización ·
+  Base de conocimiento · Matrices de escalamiento · Documentación técnica ·
+  Videovigilancia · Guardias · Continuidad operativa · FTTH · OLT · ONU · PON · SSH ·
+  API REST · JSON-RPC · Telegram Bot API · Jira · Automatización de procesos

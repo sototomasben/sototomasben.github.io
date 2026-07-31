@@ -1,0 +1,21 @@
+# Entorno virtual de Python
+.venv/
+venv/
+env/
+
+# Cachés
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Salida del build — se regenera, no se versiona
+dist/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.idea/
+*.swp

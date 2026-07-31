@@ -1,0 +1,43 @@
+# ============================================================
+#  Configuración global del sitio
+#  Única fuente de verdad para metadatos y navegación.
+# ============================================================
+nombre: Tomás Benjamín Soto
+titular: Analista NOC IT
+subtitular: Redes · Infraestructura · Telecomunicaciones
+ubicacion: Salta Capital, Argentina
+
+# Cambiá esto cuando publiques con dominio propio
+base_url: ""          # ej: "/portfolio" si lo servís en un subdirectorio de GitHub Pages
+canonical: "https://tbs28.github.io"
+
+seo:
+  descripcion: >-
+    Analista NOC IT enfocado en la continuidad operativa de redes, sistemas y
+    servicios de conectividad. Monitoreo con Zabbix, Grafana y Unifi Network
+    Application, gestión de incidentes sobre Huawei y MikroTik, informes RFO y
+    automatización de tareas operativas. Certificado MTCNA y MTCRE.
+  keywords: NOC, Network Operations Center, networking, MikroTik, RouterOS, Huawei, Zabbix, Grafana, Unifi, GPON, SLA, RFO, incidentes, automatización, Salta, Argentina
+  idioma: es
+
+contacto:
+  email: tomassoto01@gmail.com
+  telefono: "+54 9 3874 071215"
+  telefono_link: "+5493874071215"
+  linkedin: linkedin.com/in/sototomasbenjamin
+  linkedin_url: https://linkedin.com/in/sototomasbenjamin
+  github: ""            # completar cuando tengas repositorio público
+
+cv:
+  # Nombre con el que se descarga el PDF. Este es el ÚNICO lugar donde se
+  # define: build.py lo lee de acá y lo copia a dist/. El archivo tiene que
+  # existir con este mismo nombre en la raíz del proyecto.
+  # Sin tildes ni espacios: evitan problemas de codificación en la URL.
+  archivo: CV_Tomas_Soto.pdf
+  etiqueta: Descargar CV
+
+nav:
+  - { texto: Inicio,       href: "index.html" }
+  - { texto: Trayectoria,  href: "trayectoria.html" }
+  - { texto: Herramientas, href: "herramientas.html" }
+  - { texto: Casos,        href: "casos.html" }

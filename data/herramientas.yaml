@@ -1,0 +1,21 @@
+# ============================================================
+#  Catálogo de herramientas interactivas
+# ============================================================
+herramientas:
+  - slug: radioenlace
+    nombre: Calculadora de radioenlace
+    resumen: >-
+      Presupuesto de potencia, pérdida en espacio libre, margen de desvanecimiento,
+      primera zona de Fresnel y despeje sobre la trayectoria.
+    para: Verificar la viabilidad de un enlace punto a punto y entender qué manda en el resultado.
+    etiquetas: [Wireless, Radioenlaces, Ingeniería]
+    icono: link
+
+  - slug: subneteo
+    nombre: Calculadora de subneteo y VLSM
+    resumen: >-
+      Red, broadcast, rango útil, wildcard y cantidad de hosts. Asignación VLSM
+      a partir de una lista de requerimientos.
+    para: Planificar direccionamiento y segmentación sin planillas a mano.
+    etiquetas: [IPv4, Subneteo, VLAN, Direccionamiento]
+    icono: grid

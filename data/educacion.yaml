@@ -1,0 +1,54 @@
+# ============================================================
+#  Formación académica y certificaciones
+# ============================================================
+titulos:
+  - titulo: Licenciatura en Gestión de Recursos Tecnológicos
+    institucion: Universidad Gastón Dachary
+    periodo: "2026"
+    estado: En curso
+  - titulo: Tecnicatura Superior en Análisis de Sistemas Informáticos
+    institucion: Instituto Superior del Milagro N°8207
+    periodo: "2022 – 2023"
+    estado: Finalizada
+  - titulo: Bachiller en Economía y Administración
+    institucion: Colegio Secundario Ernesto Miguel Aráoz N°5033
+    periodo: "2015 – 2020"
+    estado: ""
+
+certificaciones:
+  - sigla: MTCNA
+    nombre: MikroTik Certified Network Associate
+    emisor: MikroTik
+    destacada: true
+  - sigla: MTCRE
+    nombre: MikroTik Certified Routing Engineer
+    emisor: MikroTik
+    destacada: true
+  - sigla: CCNA 1 v7 — ITN
+    nombre: Introduction to Networks
+    emisor: Cisco
+    destacada: false
+  - sigla: Network Support and Security
+    nombre: Fundamentos de soporte y seguridad de red
+    emisor: Cisco
+    destacada: false
+  - sigla: Computer Hardware Basics
+    nombre: Fundamentos de hardware
+    emisor: Cisco
+    destacada: false
+  - sigla: Wireless LAN · Routing Básico · IPv6 Básico
+    nombre: Programa de formación técnica regional
+    emisor: LACNIC
+    destacada: false
+  - sigla: Technical Support Fundamentals
+    nombre: Fundamentos de soporte técnico
+    emisor: Google
+    destacada: false
+  - sigla: Office Specialist — Word
+    nombre: Certificación de producto
+    emisor: Microsoft
+    destacada: false
+  - sigla: Ciencia de Datos · Excel
+    nombre: Programa de formación
+    emisor: Santander
+    destacada: false

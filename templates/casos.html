@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% from "_macros.html" import sec, card_caso %}
+{% set titulo = "Casos de estudio" %}
+{% set pagina = "casos.html" %}
+
+{% block contenido %}
+<section class="section">
+  <div class="wrap">
+    <h1 style="margin-bottom:var(--s-3)">Casos de estudio</h1>
+    <p class="prose" style="margin-bottom:var(--s-8)">
+      Cada caso sigue la misma estructura: contexto, problema, método y resultado.
+      Es el formato en el que un evaluador técnico puede seguir el razonamiento.
+    </p>
+    <div class="cards cards--2">
+      {%- for c in casos %}{{ card_caso(c, base) }}{%- endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

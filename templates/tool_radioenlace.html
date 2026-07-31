@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+{% from "_macros.html" import sec %}
+{% set titulo = "Calculadora de radioenlace" %}
+{% set pagina = "herramientas.html" %}
+{% set descripcion = "Calculadora de radioenlace punto a punto: pérdida en espacio libre, presupuesto de potencia, margen de desvanecimiento, primera zona de Fresnel y despeje sobre la trayectoria." %}
+
+{% block contenido %}
+<section class="section" style="padding-bottom:var(--s-6)">
+  <div class="wrap">
+    <a href="{{ base }}herramientas.html" class="micro" style="display:inline-block;margin-bottom:var(--s-5)">← Herramientas</a>
+    <h1 style="margin-bottom:var(--s-3)">Calculadora de radioenlace</h1>
+    <p class="prose">
+      Dimensiona un enlace punto a punto antes de subir a la torre. Calcula pérdida en espacio
+      libre, presupuesto de potencia, margen de desvanecimiento, primera zona de Fresnel,
+      curvatura terrestre y despeje real sobre el obstáculo dominante.
+    </p>
+  </div>
+</section>
+
+<section class="wrap" style="padding-bottom:var(--s-9)">
+  <div class="tool">
+
+    <!-- ============ ENTRADA ============ -->
+    <form class="panel panel--sticky" id="form" autocomplete="off" onsubmit="return false">
+      <div class="panel__h">
+        <span class="micro">Parámetros</span>
+        <span class="micro mono" style="color:var(--acc)">EDITABLE</span>
+      </div>
+
+      <div class="fieldset">
+        <div class="fgroup">
+          <div class="field">
+            <label for="freq">Frecuencia <span class="u">MHz</span></label>
+            <input type="number" id="freq" step="1" min="1" value="5800">
+          </div>
+          <div class="field">
+            <label for="dist">Distancia <span class="u">km</span></label>
+            <input type="number" id="dist" step="0.01" min="0.01" value="10">
+          </div>
+        </div>
+
+        <div class="sub-h">Radio</div>
+        <div class="fgroup">
+          <div class="field">
+            <label for="ptx">Potencia TX <span class="u">dBm</span></label>
+            <input type="number" id="ptx" step="0.1" value="25">
+          </div>
+          <div class="field">
+            <label for="sens">Sensibilidad RX <span class="u">dBm</span></label>
+            <input type="number" id="sens" step="0.1" value="-83">
+          </div>
+          <div class="field">
+            <label for="gtx">Ganancia antena A <span class="u">dBi</span></label>
+            <input type="number" id="gtx" step="0.1" value="24">
+          </div>
+          <div class="field">
+            <label for="grx">Ganancia antena B <span class="u">dBi</span></label>
+            <input type="number" id="grx" step="0.1" value="24">
+          </div>
+        </div>
+
+        <div class="sub-h">Pérdidas</div>
+        <div class="fgroup">
+          <div class="field">
+            <label for="ltx">Línea A <span class="u">dB</span></label>
+            <input type="number" id="ltx" step="0.1" min="0" value="0.5">
+          </div>
+          <div class="field">
+            <label for="lrx">Línea B <span class="u">dB</span></label>
+            <input type="number" id="lrx" step="0.1" min="0" value="0.5">
+          </div>
+        </div>
+        <div class="field">
+          <label for="lmisc">Varios: conectores, desalineación, lluvia <span class="u">dB</span></label>
+          <input type="number" id="lmisc" step="0.1" min="0" value="2">
+          <span class="hint">Reserva por implementación. 2 a 3 dB es un valor conservador razonable.</span>
+        </div>
+
+        <div class="sub-h">Geometría</div>
+        <div class="fgroup">
+          <div class="field">
+            <label for="hSitioA">Cota sitio A <span class="u">msnm</span></label>
+            <input type="number" id="hSitioA" step="0.1" value="1180">
+          </div>
+          <div class="field">
+            <label for="hMastilA">Mástil A <span class="u">m</span></label>
+            <input type="number" id="hMastilA" step="0.1" min="0" value="30">
+          </div>
+          <div class="field">
+            <label for="hSitioB">Cota sitio B <span class="u">msnm</span></label>
+            <input type="number" id="hSitioB" step="0.1" value="1190">
+          </div>
+          <div class="field">
+            <label for="hMastilB">Mástil B <span class="u">m</span></label>
+            <input type="number" id="hMastilB" step="0.1" min="0" value="30">
+          </div>
+          <div class="field">
+            <label for="dObs">Obstáculo: distancia desde A <span class="u">km</span></label>
+            <input type="number" id="dObs" step="0.01" min="0.01" value="5">
+          </div>
+          <div class="field">
+            <label for="hObs">Obstáculo: cota <span class="u">msnm</span></label>
+            <input type="number" id="hObs" step="0.1" value="1200">
+          </div>
+        </div>
+        <div class="field">
+          <label for="k">Factor de refracción K <span class="u">adim.</span></label>
+          <input type="number" id="k" step="0.001" min="0.1" value="1.333">
+          <span class="hint">4/3 = 1,333 es el valor estándar para atmósfera normal.</span>
+        </div>
+
+        <div class="sub-h">Escenarios</div>
+        <div class="tags">
+          <button type="button" class="btn" style="padding:var(--s-2) var(--s-3);font-size:var(--fs-xs)" data-preset="5ghz-10km">5 GHz · 10 km</button>
+          <button type="button" class="btn" style="padding:var(--s-2) var(--s-3);font-size:var(--fs-xs)" data-preset="5ghz-cerro">5 GHz · cerro 24 km</button>
+          <button type="button" class="btn" style="padding:var(--s-2) var(--s-3);font-size:var(--fs-xs)" data-preset="60ghz-corto">60 GHz · 600 m</button>
+          <button type="button" class="btn" style="padding:var(--s-2) var(--s-3);font-size:var(--fs-xs)" data-preset="critico">Enlace crítico</button>
+        </div>
+      </div>
+    </form>
+
+    <!-- ============ SALIDA ============ -->
+    <div class="out">
+      <div class="verdict" id="verdict" data-estado="ok" role="status" aria-live="polite">
+        <span class="verdict__dot" aria-hidden="true"></span>
+        <div>
+          <div class="verdict__t" id="verdict-t">—</div>
+          <div class="verdict__d" id="verdict-d">—</div>
+        </div>
+      </div>
+
+      <div class="kpis" id="kpis"></div>
+      <div class="kpis" id="kpis2"></div>
+
+      <div class="profile-box">
+        <div class="micro" style="margin-bottom:var(--s-3)">Perfil esquemático de la trayectoria</div>
+        <div id="perfil"></div>
+      </div>
+
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <caption>Detalle del cálculo</caption>
+          <thead><tr><th scope="col">Parámetro</th><th scope="col">Valor</th></tr></thead>
+          <tbody id="detalle"></tbody>
+        </table>
+      </div>
+
+      <div style="display:flex;gap:var(--s-3);flex-wrap:wrap">
+        <button class="btn" type="button" id="copiar">Copiar resultado</button>
+      </div>
+
+      <div class="note">
+        <strong>Fórmulas utilizadas.</strong>
+        <ul>
+          <li>Pérdida en espacio libre: <span class="mono">FSPL = 32,44 + 20·log10(f_MHz) + 20·log10(d_km)</span></li>
+          <li>Presupuesto: <span class="mono">Prx = Ptx + Gtx + Grx − FSPL − Ltx − Lrx − Lvarios</span></li>
+          <li>Margen de desvanecimiento: <span class="mono">FM = Prx − Sensibilidad</span></li>
+          <li>Zona de Fresnel: <span class="mono">r_n = 17,32·√(n·d1·d2 / (f_GHz·D))</span>, distancias en km, resultado en metros</li>
+          <li>Curvatura terrestre: <span class="mono">h = d1·d2 / (12,74·K)</span></li>
+        </ul>
+        <p style="margin-top:var(--s-3)">
+          <strong>Criterios del veredicto.</strong> Margen de desvanecimiento: ≥ 20 dB recomendado,
+          10 a 20 dB al límite, &lt; 10 dB no recomendable. Despeje: se exige el 60 % de la primera
+          zona de Fresnel libre por encima del obstáculo y del bulto terrestre.
+        </p>
+        <p style="margin-top:var(--s-3)">
+          Esta herramienta no reemplaza un relevamiento de campo ni un perfil topográfico real.
+          Modela un único obstáculo dominante y no incorpora atenuación por lluvia según ITU-R P.838
+          ni desvanecimiento multitrayecto.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ base }}static/js/radioenlace.js" defer></script>
+{% endblock %}
